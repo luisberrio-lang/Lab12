@@ -1,6 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
+    @php
+        use Illuminate\Support\Str;
+    @endphp
+
     <div class="container">
         <h1>Publicaciones</h1>
         <a href="{{ route('posts.create') }}" class="btn btn-primary mb-3">Crear Publicación</a>
@@ -29,4 +33,3 @@
         @endforeach
     </div>
 @endsection
-
