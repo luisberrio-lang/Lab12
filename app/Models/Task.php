@@ -2,21 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Task extends Model
 {
-    // Campos asignables en masa
+    use HasFactory;
+
     protected $fillable = [
         'title',
         'description',
-        'completed',
-        'user_id',
     ];
-
-    // Relación con el modelo User
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 }
