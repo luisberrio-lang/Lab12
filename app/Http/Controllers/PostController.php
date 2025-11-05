@@ -30,7 +30,14 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
         ]);
+        //Es un filtro de malas palabras - Marco Figueroa
+        $prohibitedWords = ['mala palabra1', 'mala palabra2'];
 
+        foreach ($prohibitedWords as $word) {
+            if (stripos($request->content, $word) !== false) {
+                return back()->withErrors(['content' => 'El contenido contiene palabras no permitidas.'])->withInput();
+            }
+        }
         Post::create([
             'title' => $request->title,
             'content' => $request->content,

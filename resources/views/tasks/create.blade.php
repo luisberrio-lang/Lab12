@@ -5,6 +5,7 @@
 </head>
 <body>
     <h1>Crear nueva tarea</h1>
+
     <form action="{{ route('tasks.store') }}" method="POST">
         @csrf
         <label>Título:</label><br>
@@ -15,6 +16,7 @@
 
         <button type="submit">Guardar</button>
     </form>
-    <a href="{{ route('tasks.index') }}">⬅️ Volver</a>
+
+    <a href="{{ route('tasks.index') }}">⬅ Volver</a>
 </body>
 </html>
