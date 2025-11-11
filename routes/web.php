@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
-
+use App\Http\Controllers\NotaController;
+use App\Http\Controllers\RecordatorioController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,5 +31,9 @@ Route::middleware('auth')->group(function () {
 
 Route::resource('tasks', TaskController::class);
 
+Route::middleware(['auth'])->group(function () {
+    Route::resource('notas', NotaController::class);
+    Route::resource('recordatorios', RecordatorioController::class)->only(['edit', 'update']);
+});
 
 require __DIR__.'/auth.php';

@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class);
     }
+
+    public function notas()
+    {
+    return $this->hasMany(Nota::class);
+    }
 }
