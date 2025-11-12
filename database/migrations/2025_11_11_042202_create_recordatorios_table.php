@@ -10,7 +10,8 @@ return new class extends Migration {
         Schema::create('recordatorios', function (Blueprint $table) {
             $table->id();
             $table->foreignId('nota_id')->constrained('notas')->onDelete('cascade');
-            $table->date('fecha_vencimiento')->nullable();
+            $table->dateTime('fecha_inicio')->nullable();
+            $table->dateTime('fecha_fin')->nullable();
             $table->boolean('completado')->default(false);
             $table->timestamps();
         });

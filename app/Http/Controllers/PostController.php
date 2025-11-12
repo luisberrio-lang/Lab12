@@ -8,14 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth'); // Requiere autenticación
-    }
-
     public function index()
     {
-        $posts = Post::with('user')->get(); // Carga posts con sus usuarios
+        $posts = Post::where('user_id', Auth::id())
+                     ->latest()
+                     ->get();
+
         return view('posts.index', compact('posts'));
     }
 
@@ -30,45 +28,43 @@ class PostController extends Controller
             'title' => 'required|string|max:255',
             'content' => 'required|string',
         ]);
-        //Es un filtro de malas palabras - Marco Figueroa
-        $prohibitedWords = ['mala palabra1', 'mala palabra2'];
 
-        foreach ($prohibitedWords as $word) {
-            if (stripos($request->content, $word) !== false) {
-                return back()->withErrors(['content' => 'El contenido contiene palabras no permitidas.'])->withInput();
-            }
-        }
         Post::create([
             'title' => $request->title,
             'content' => $request->content,
             'user_id' => Auth::id(),
         ]);
 
-        return redirect()->route('posts.index')->with('success', 'Publicación creada.');
+        return redirect()->route('posts.index');
     }
 
     public function show(Post $post)
     {
+        if ($post->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         return view('posts.show', compact('post'));
     }
 
     public function edit(Post $post)
     {
         if ($post->user_id !== Auth::id()) {
-            abort(403, 'No autorizado');
+            abort(403);
         }
+
         return view('posts.edit', compact('post'));
     }
 
     public function update(Request $request, Post $post)
     {
         if ($post->user_id !== Auth::id()) {
-            abort(403, 'No autorizado');
+            abort(403);
         }
 
         $request->validate([
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
+            'title' => 'required|max:255',
+            'content' => 'required',
         ]);
 
         $post->update([
@@ -76,17 +72,17 @@ class PostController extends Controller
             'content' => $request->content,
         ]);
 
-        return redirect()->route('posts.index')->with('success', 'Publicación actualizada.');
+        return redirect()->route('posts.index');
     }
 
     public function destroy(Post $post)
     {
         if ($post->user_id !== Auth::id()) {
-            abort(403, 'No autorizado');
+            abort(403);
         }
 
         $post->delete();
-        return redirect()->route('posts.index')->with('success', 'Publicación eliminada.');
+
+        return redirect()->route('posts.index');
     }
 }
-

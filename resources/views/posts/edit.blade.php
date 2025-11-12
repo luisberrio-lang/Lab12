@@ -1,22 +1,29 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1>Editar Publicación</h1>
-        <form action="{{ route('posts.update', $post) }}" method="POST">
-            @csrf
-            @method('PUT')
-            <div class="mb-3">
-                <label for="title" class="form-label">Título</label>
-                <input type="text" name="title" class="form-control" value="{{ $post->title }}" required>
-            </div>
-            <div class="mb-3">
-                <label for="content" class="form-label">Contenido</label>
-                <textarea name="content" class="form-control" required>{{ $post->content }}</textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Actualizar</button>
-        </form>
-    </div>
+<div class="max-w-3xl mx-auto mt-10 bg-white shadow-lg rounded-xl p-6">
+    <h1 class="text-2xl font-bold mb-6 text-gray-800">✏️ Editar publicación</h1>
+
+    <form action="{{ route('posts.update', $post) }}" method="POST" class="space-y-4">
+        @csrf
+        @method('PUT')
+
+        <div>
+            <label for="title" class="block text-sm font-medium text-gray-700">Título</label>
+            <input type="text" name="title" id="title" value="{{ old('title', $post->title) }}"
+                   class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+        </div>
+
+        <div>
+            <label for="content" class="block text-sm font-medium text-gray-700">Contenido</label>
+            <textarea name="content" id="content" rows="5"
+                      class="mt-1 block w-full border-gray-300 rounded-lg shadow-sm focus:ring-blue-500 focus:border-blue-500" required>{{ old('content', $post->content) }}</textarea>
+        </div>
+
+        <div class="flex gap-3">
+            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-5 py-2 rounded-lg">Actualizar</button>
+            <a href="{{ route('posts.index') }}" class="bg-gray-400 hover:bg-gray-500 text-white px-5 py-2 rounded-lg">Volver</a>
+        </div>
+    </form>
+</div>
 @endsection
-
-

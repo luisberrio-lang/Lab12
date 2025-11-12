@@ -4,14 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-
 
 class Nota extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
-    protected $fillable = ['user_id', 'titulo', 'contenido'];
+    protected $fillable = [
+        'titulo',
+        'contenido',
+        'fecha',
+        'estado',
+        'user_id',
+    ];
+
+    protected $casts = [
+        'fecha' => 'datetime',
+    ];
 
     public function user()
     {

@@ -33,44 +33,43 @@ class NotaController extends Controller
             'contenido' => $request->contenido,
         ]);
 
-        Recordatorio::create([
-            'nota_id' => $nota->id,
-        ]);
+        Recordatorio::create(['nota_id' => $nota->id]);
 
         return redirect()->route('notas.index')->with('success', 'Nota creada correctamente.');
     }
 
-    public function show(Nota $nota)
-    {
-        $this->authorize('view', $nota);
-        return view('notas.show', compact('nota'));
-    }
-
     public function edit(Nota $nota)
     {
-        $this->authorize('update', $nota);
+        if ($nota->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         return view('notas.edit', compact('nota'));
     }
 
     public function update(Request $request, Nota $nota)
     {
-        $this->authorize('update', $nota);
+        if ($nota->user_id !== Auth::id()) {
+            abort(403);
+        }
 
         $request->validate([
             'titulo' => 'required|max:255',
             'contenido' => 'required',
         ]);
 
-        $nota->update($request->only('titulo', 'contenido'));
+        $nota->update($request->only(['titulo', 'contenido']));
 
         return redirect()->route('notas.index')->with('success', 'Nota actualizada.');
     }
 
     public function destroy(Nota $nota)
     {
-        $this->authorize('delete', $nota);
+        if ($nota->user_id !== Auth::id()) {
+            abort(403);
+        }
+
         $nota->delete();
         return redirect()->route('notas.index')->with('success', 'Nota eliminada.');
     }
 }
-

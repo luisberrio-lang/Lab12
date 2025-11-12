@@ -9,7 +9,12 @@ class Recordatorio extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['nota_id', 'fecha_vencimiento', 'completado'];
+    protected $fillable = [
+        'nota_id',
+        'fecha_inicio',
+        'fecha_fin',
+        'completado',
+    ];
 
     public function nota()
     {
