@@ -15,7 +15,11 @@ class Recordatorio extends Model
         'fecha_fin',
         'completado',
     ];
-
+    protected $casts = [
+        'fecha_inicio' => 'datetime',
+        'fecha_fin' => 'datetime',
+        'completado' => 'boolean', 
+    ];
     public function nota()
     {
         return $this->belongsTo(Nota::class);

@@ -16,18 +16,19 @@ class RecordatorioController extends Controller
     public function store(Request $request, Nota $nota)
     {
         $request->validate([
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_fin'    => 'nullable|date',
         ]);
 
         Recordatorio::create([
-            'nota_id' => $nota->id,
+            'nota_id'      => $nota->id,
             'fecha_inicio' => $request->fecha_inicio,
-            'fecha_fin' => $request->fecha_fin,
-            'completado' => false,
+            'fecha_fin'    => $request->fecha_fin,
+            'completado'   => false,
         ]);
 
-        return redirect()->route('notas.index')->with('success', 'Recordatorio creado correctamente.');
+        return redirect()->route('notas.index')
+                         ->with('success', 'Recordatorio creado correctamente.');
     }
 
     public function edit(Recordatorio $recordatorio)
@@ -38,23 +39,26 @@ class RecordatorioController extends Controller
     public function update(Request $request, Recordatorio $recordatorio)
     {
         $request->validate([
-            'fecha_inicio' => 'required|date',
-            'fecha_fin' => 'required|date|after_or_equal:fecha_inicio',
-            'completado' => 'boolean',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_fin'    => 'nullable|date',
+            'completado'   => 'boolean',
         ]);
 
         $recordatorio->update([
             'fecha_inicio' => $request->fecha_inicio,
-            'fecha_fin' => $request->fecha_fin,
-            'completado' => $request->has('completado'),
+            'fecha_fin'    => $request->fecha_fin,
+            'completado'   => $request->has('completado'),
         ]);
 
-        return redirect()->route('notas.index')->with('success', 'Recordatorio actualizado correctamente.');
+        return redirect()->route('notas.index')
+                         ->with('success', 'Recordatorio actualizado correctamente.');
     }
 
     public function destroy(Recordatorio $recordatorio)
     {
         $recordatorio->delete();
-        return redirect()->route('notas.index')->with('success', 'Recordatorio eliminado correctamente.');
+
+        return redirect()->route('notas.index')
+                         ->with('success', 'Recordatorio eliminado correctamente.');
     }
 }
