@@ -65,6 +65,18 @@
                                 Eliminar
                             </button>
                         </form>
+
+                        @if($nota->recordatorio)
+                            <a href="{{ route('recordatorios.actividades.index', $nota->recordatorio) }}"
+                               class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded">
+                                🔹 Ver actividades
+                            </a>
+
+                            <a href="{{ route('recordatorios.actividades.create', $nota->recordatorio) }}"
+                               class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded">
+                                ➕ Agregar actividad
+                            </a>
+                        @endif
                     </div>
                 </div>
             @endforeach
@@ -72,5 +84,3 @@
     @endif
 </div>
 @endsection
-
-

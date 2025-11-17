@@ -24,4 +24,9 @@ class Recordatorio extends Model
     {
         return $this->belongsTo(Nota::class);
     }
+
+    public function actividades()
+{
+    return $this->hasMany(Actividad::class);
+}
 }
