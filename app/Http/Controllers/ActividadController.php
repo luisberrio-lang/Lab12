@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Models\Recordatorio;
 use App\Models\Actividad;
+use App\Models\Recordatorio;
+use Illuminate\Http\Request;
 
 class ActividadController extends Controller
 {
@@ -23,7 +23,7 @@ class ActividadController extends Controller
     {
         $request->validate([
             'descripcion' => 'required|string|max:255',
-            'estado' => 'required|string',
+            'estado' => 'required|in:pendiente,en progreso,completado',
             'fecha_inicio' => 'nullable|date',
             'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
         ]);
@@ -31,7 +31,7 @@ class ActividadController extends Controller
         $recordatorio->actividades()->create($request->all());
 
         return redirect()->route('recordatorios.actividades.index', $recordatorio)
-                         ->with('success', 'Actividad creada correctamente.');
+                         ->with('success', 'Actividad creada correctamente');
     }
 
     public function edit(Recordatorio $recordatorio, Actividad $actividad)
@@ -43,7 +43,7 @@ class ActividadController extends Controller
     {
         $request->validate([
             'descripcion' => 'required|string|max:255',
-            'estado' => 'required|string',
+            'estado' => 'required|in:pendiente,en progreso,completado',
             'fecha_inicio' => 'nullable|date',
             'fecha_fin' => 'nullable|date|after_or_equal:fecha_inicio',
         ]);
@@ -51,7 +51,7 @@ class ActividadController extends Controller
         $actividad->update($request->all());
 
         return redirect()->route('recordatorios.actividades.index', $recordatorio)
-                         ->with('success', 'Actividad actualizada correctamente.');
+                         ->with('success', 'Actividad actualizada correctamente');
     }
 
     public function destroy(Recordatorio $recordatorio, Actividad $actividad)
@@ -59,7 +59,6 @@ class ActividadController extends Controller
         $actividad->delete();
 
         return redirect()->route('recordatorios.actividades.index', $recordatorio)
-                         ->with('success', 'Actividad eliminada correctamente.');
+                         ->with('success', 'Actividad eliminada correctamente');
     }
 }
-

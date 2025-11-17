@@ -38,9 +38,11 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/recordatorios/{recordatorio}', [RecordatorioController::class, 'update'])->name('recordatorios.update');
         Route::delete('/recordatorios/{recordatorio}', [RecordatorioController::class, 'destroy'])->name('recordatorios.destroy');
 
-        // Actividades (nested)
-        Route::resource('recordatorios.actividades', ActividadController::class)->except(['show']);
+        // Actividades (relacionadas con recordatorios)
+        Route::resource('recordatorios.actividades', ActividadController::class)
+             ->parameters(['actividades' => 'actividad']); // Esto asegura {actividad} y no {actividade}
     });
 });
 
 require __DIR__ . '/auth.php';
+

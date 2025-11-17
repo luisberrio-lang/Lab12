@@ -35,4 +35,9 @@
                value="{{ old('fecha_fin', $actividad->fecha_fin ? $actividad->fecha_fin->format('Y-m-d\TH:i') : '') }}"
                class="w-full border px-3 py-2 rounded mb-4">
 
-        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 p
+        <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+            Actualizar
+        </button>
+    </form>
+</div>
+@endsection
